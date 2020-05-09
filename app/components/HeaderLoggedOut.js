@@ -9,7 +9,7 @@ function HeaderLoggedOut(props) {
         e.preventDefault()
         try {
             // With ES6 JS if the property name is the same as the variable name - you can just pass the variable name. ie. username, password
-            const response = await Axios.post("http://localhost:8080/login", { username, password })
+            const response = await Axios.post("/login", { username, password })
             if (response.data) {
                 localStorage.setItem("writingAppToken", response.data.token)
                 localStorage.setItem("writingAppUsername", response.data.username)
