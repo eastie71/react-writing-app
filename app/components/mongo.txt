@@ -1,1 +1,0 @@
-mongodb+srv://atlasAdmin:gsTHEj1s5SkiO9tU@cluster0-jyrjz.mongodb.net/ReactWritingApp?retryWrites=true&w=majority
