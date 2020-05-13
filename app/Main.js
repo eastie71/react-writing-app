@@ -1,5 +1,6 @@
 import React, { useState, useReducer } from "react"
 import ReactDOM from "react-dom"
+import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import Axios from "axios"
 Axios.defaults.baseURL = "http://localhost:8080"
@@ -23,17 +24,23 @@ function Main() {
         loggedIn: Boolean(localStorage.getItem("writingAppToken")),
         flashMessages: []
     }
-    function appReducer(state, action) {
+    function appReducer(draft, action) {
+        // By using the "immer" package we do not have to return the entire state of all properties
+        // we can just modify the "draft"
         switch (action.type) {
             case "login":
-                return { loggedIn: true, flashMessages: state.flashMessages }
+                draft.loggedIn = true
+                return
             case "logout":
-                return { loggedIn: false, flashMessages: state.flashMessages }
+                draft.loggedIn = false
+                return
             case "addFlashMessage":
-                return { loggedIn: state.loggedIn, flashMessages: state.flashMessages.concat(action.value) }
+                // For "addFlashMessage" the action.value is set to the message being added to flash messages
+                draft.flashMessages.push(action.value)
+                return
         }
     }
-    const [state, dispatch] = useReducer(appReducer, initialState)
+    const [state, dispatch] = useImmerReducer(appReducer, initialState)
 
     // React does partial matching - so use "exact" keyword here so that it matches
     // the EXACT homepath
