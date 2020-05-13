@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react"
+import React, { useState, useReducer, useEffect } from "react"
 import ReactDOM from "react-dom"
 import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
@@ -22,7 +22,12 @@ import FlashMessages from "./components/FlashMessages"
 function Main() {
     const initialState = {
         loggedIn: Boolean(localStorage.getItem("writingAppToken")),
-        flashMessages: []
+        flashMessages: [],
+        user: {
+            token: localStorage.getItem("writingAppToken"),
+            username: localStorage.getItem("writingAppUsername"),
+            avatar: localStorage.getItem("writingAppAvatar")
+        }
     }
     function appReducer(draft, action) {
         // By using the "immer" package we do not have to return the entire state of all properties
@@ -30,6 +35,7 @@ function Main() {
         switch (action.type) {
             case "login":
                 draft.loggedIn = true
+                draft.user = action.userdata
                 return
             case "logout":
                 draft.loggedIn = false
@@ -41,6 +47,20 @@ function Main() {
         }
     }
     const [state, dispatch] = useImmerReducer(appReducer, initialState)
+
+    useEffect(() => {
+        if (state.loggedIn) {
+            // Save user data to localStorage
+            localStorage.setItem("writingAppToken", state.user.token)
+            localStorage.setItem("writingAppUsername", state.user.username)
+            localStorage.setItem("writingAppAvatar", state.user.avatar)
+        } else {
+            // Remove user data from localStorage
+            localStorage.removeItem("writingAppToken")
+            localStorage.removeItem("writingAppUsername")
+            localStorage.removeItem("writingAppAvatar")
+        }
+    }, [state.loggedIn])
 
     // React does partial matching - so use "exact" keyword here so that it matches
     // the EXACT homepath
