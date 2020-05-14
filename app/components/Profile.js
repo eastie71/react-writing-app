@@ -19,16 +19,22 @@ function Profile() {
 
     // Only run the function the FIRST (and only) time this component is rendered.
     useEffect(() => {
+        // Establish a cancel handle to pass to post request
+        const postRequest = Axios.CancelToken.source()
+
         // useEffect cannot be called with an async function - so need to split code into async function here...
         async function fetchProfileData() {
             try {
-                const response = await Axios.post(`/profile/${username}`, { token: appState.user.token })
+                const response = await Axios.post(`/profile/${username}`, { token: appState.user.token }, { cancelToken: postRequest.token })
                 setProfileData(response.data)
             } catch (error) {
-                console.log("There was a problem retrieving user data")
+                console.log("There was a problem retrieving user data or user cancelled")
             }
         }
         fetchProfileData()
+        return () => {
+            postRequest.cancel()
+        }
     }, [])
 
     return (

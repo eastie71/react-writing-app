@@ -10,9 +10,11 @@ function HeaderLoggedOut() {
 
     async function handleSubmit(e) {
         e.preventDefault()
+        // Establish a cancel handle to pass to post request
+        const postRequest = Axios.CancelToken.source()
         try {
             // With ES6 JS if the property name is the same as the variable name - you can just pass the variable name. ie. username, password
-            const response = await Axios.post("/login", { username, password })
+            const response = await Axios.post("/login", { username, password }, { cancelToken: postRequest.token })
             if (response.data) {
                 // Saved to localStorage with useEffect (see Main.js)
                 appDispatch({ type: "login", userdata: response.data })
@@ -20,7 +22,10 @@ function HeaderLoggedOut() {
                 console.log("Wrong username / password")
             }
         } catch (error) {
-            console.log("An error occurred on User Login")
+            console.log("An error occurred on User Login or User cancelled")
+        }
+        return () => {
+            postRequest.cancel()
         }
     }
 
