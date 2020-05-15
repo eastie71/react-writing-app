@@ -15,7 +15,7 @@ function HomeGuest() {
         // MS Edge browser needs catch passing "e"
         try {
             // With ES6 JS if the property name is the same as the variable name - you can just pass the variable name. ie. username, email, password
-            await Axios.post("/register", { username, email, password }, { cancelToken: postRequest.cancel })
+            await Axios.post("/register", { username, email, password }, { cancelToken: postRequest.cancel.token })
             console.log("User was successfully created.")
         } catch (e) {
             console.log("An error occurred on User Registration or User cancelled")

@@ -19,6 +19,8 @@ import CreatePost from "./components/CreatePost"
 import ViewSinglePost from "./components/ViewSinglePost"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
+import EditPost from "./components/EditPost"
+import NotFound from "./components/NotFound"
 
 function Main() {
     const initialState = {
@@ -63,8 +65,8 @@ function Main() {
         }
     }, [state.loggedIn])
 
-    // React does partial matching - so use "exact" keyword here so that it matches
-    // the EXACT homepath
+    // React does partial matching - so use "exact" keyword is used here so that it matches
+    // the EXACT path
     return (
         <StateContext.Provider value={state}>
             <DispatchContext.Provider value={dispatch}>
@@ -78,8 +80,11 @@ function Main() {
                         <Route path="/" exact>
                             {state.loggedIn ? <Home /> : <HomeGuest />}
                         </Route>
-                        <Route path="/post/:id">
+                        <Route path="/post/:id" exact>
                             <ViewSinglePost />
+                        </Route>
+                        <Route path="/post/:id/edit" exact>
+                            <EditPost />
                         </Route>
                         <Route path="/create-post">
                             <CreatePost />
@@ -89,6 +94,9 @@ function Main() {
                         </Route>
                         <Route path="/terms">
                             <Terms />
+                        </Route>
+                        <Route>
+                            <NotFound />
                         </Route>
                     </Switch>
                     <Footer />

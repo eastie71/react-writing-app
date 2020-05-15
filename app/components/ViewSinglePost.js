@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
 import ReactToolTip from "react-tooltip"
+import NotFound from "./NotFound"
 
 function ViewSinglePost() {
     const { id } = useParams()
@@ -31,6 +32,10 @@ function ViewSinglePost() {
         }
     }, [])
 
+    if (!isLoading && !post) {
+        return <NotFound />
+    }
+
     if (isLoading) {
         return (
             <Page title="...">
@@ -46,9 +51,9 @@ function ViewSinglePost() {
             <div className="d-flex justify-content-between">
                 <h2>{post.title}</h2>
                 <span className="pt-2">
-                    <a href="#" data-tip="Edit" data-for="edit" className="text-primary mr-2">
+                    <Link to={`/post/${post._id}/edit`} data-tip="Edit" data-for="edit" className="text-primary mr-2">
                         <i className="fas fa-edit"></i>
-                    </a>
+                    </Link>
                     <ReactToolTip id="edit" className="custom-tooltip" />
                     {"      "}
                     <a data-tip="Delete" data-for="delete" className="delete-post-button text-danger">
