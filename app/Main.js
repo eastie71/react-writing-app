@@ -23,11 +23,14 @@ import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
+import Chat from "./components/Chat"
 
 function Main() {
     const initialState = {
         loggedIn: Boolean(localStorage.getItem("writingAppToken")),
         searchOpen: false,
+        chatOpen: false,
+        unreadChatCount: 0,
         flashMessages: [],
         user: {
             token: localStorage.getItem("writingAppToken"),
@@ -55,6 +58,18 @@ function Main() {
                 return
             case "closeSearch":
                 draft.searchOpen = false
+                return
+            case "toggleChatWindow":
+                draft.chatOpen = !draft.chatOpen
+                return
+            case "closeChatWindow":
+                draft.chatOpen = false
+                return
+            case "incrementUnreadChatCount":
+                draft.unreadChatCount++
+                return
+            case "clearUnreadChatCount":
+                draft.unreadChatCount = 0
                 return
         }
     }
@@ -111,6 +126,7 @@ function Main() {
                     <CSSTransition timeout={330} in={state.searchOpen} classNames="search-overlay" unmountOnExit>
                         <Search />
                     </CSSTransition>
+                    <Chat />
                     <Footer />
                 </BrowserRouter>
             </DispatchContext.Provider>
