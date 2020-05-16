@@ -16,25 +16,28 @@ function ViewSinglePost(props) {
     const [isLoading, setIsLoading] = useState(true)
     const [post, setPost] = useState([])
 
-    useEffect(() => {
-        // Establish a cancel handle to pass to get request - say if user navigates away quickly before get request completes
-        const getRequest = Axios.CancelToken.source()
+    useEffect(
+        () => {
+            // Establish a cancel handle to pass to get request - say if user navigates away quickly before get request completes
+            const getRequest = Axios.CancelToken.source()
 
-        async function fetchPost() {
-            try {
-                const response = await Axios.get(`post/${id}`, { cancelToken: getRequest.token })
-                setPost(response.data)
-                setIsLoading(false)
-            } catch (error) {
-                console.log("There was a problem trying to load a post or user cancelled")
+            async function fetchPost() {
+                try {
+                    const response = await Axios.get(`post/${id}`, { cancelToken: getRequest.token })
+                    setPost(response.data)
+                    setIsLoading(false)
+                } catch (error) {
+                    console.log("There was a problem trying to load a post or user cancelled")
+                }
             }
-        }
-        fetchPost()
-        return () => {
-            // This is the cleanup function so - call cancel (via the handle) to cancel the axios get request
-            getRequest.cancel()
-        }
-    }, [])
+            fetchPost()
+            return () => {
+                // This is the cleanup function so - call cancel (via the handle) to cancel the axios get request
+                getRequest.cancel()
+            }
+        },
+        /* Need dependency of "id" - eg. if searching for a post and the post "id" is different to current - run this code to retrieve the post */ [id]
+    )
 
     if (!isLoading && !post) {
         return <NotFound />
