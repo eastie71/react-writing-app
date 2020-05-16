@@ -24,7 +24,7 @@ function ProfilePosts() {
         return () => {
             getRequest.cancel()
         }
-    }, [])
+    }, [username])
 
     if (isLoading) {
         return <LoadingDotsIcon />
