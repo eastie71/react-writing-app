@@ -3,6 +3,7 @@ import Axios from "axios"
 import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import StateContext from "../StateContext"
+import PostLine from "./PostLine"
 
 function ProfilePosts() {
     const { username } = useParams()
@@ -38,13 +39,7 @@ function ProfilePosts() {
             {Boolean(posts.length) && (
                 <div className="list-group">
                     {posts.map(post => {
-                        const postDate = new Date(post.createdDate)
-                        const postDateFormatted = `${postDate.getDate()}/${postDate.getMonth() + 1}/${postDate.getFullYear()}`
-                        return (
-                            <Link key={post._id} to={`/post/${post._id}`} className="list-group-item list-group-item-action">
-                                <img className="avatar-tiny" src={post.author.avatar} /> <strong>{post.title}</strong> <span className="text-muted small">on {postDateFormatted} </span>
-                            </Link>
-                        )
+                        return <PostLine suppressAuthor={true} post={post} />
                     })}
                 </div>
             )}
