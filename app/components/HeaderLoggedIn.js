@@ -9,8 +9,9 @@ function HeaderLoggedIn() {
     const appState = useContext(StateContext)
 
     function handleLogout() {
-        appDispatch({ type: "logout" })
         // Remove localStorage via useEffect (see Main.js)
+        appDispatch({ type: "logout" })
+        appDispatch({ type: "addFlashMessage", value: "You have now logged out." })
     }
 
     function handleSearchIcon(e) {

@@ -89,6 +89,27 @@ function Main() {
         }
     }, [state.loggedIn])
 
+    // Check if TOKEN has EXPIRED on first render
+    useEffect(() => {
+        if (state.loggedIn) {
+            const tokenCheckRequest = Axios.CancelToken.source()
+            async function checkTokenRequest() {
+                try {
+                    const response = await Axios.post("/checkToken", { token: state.user.token }, { cancelToken: tokenCheckRequest.token })
+                    if (!response.data) {
+                        // If token expired then force logout and ask user to login again
+                        dispatch({ type: "logout" })
+                        dispatch({ type: "addFlashMessage", value: "Your session has expired. Please login again" })
+                    }
+                } catch (error) {
+                    console.log("A problem occurred while checking user token or the user cancelled.")
+                }
+            }
+            checkTokenRequest()
+            return () => tokenCheckRequest.cancel()
+        }
+    }, [])
+
     // React does partial matching - so use "exact" keyword is used here so that it matches
     // the EXACT path
     return (
