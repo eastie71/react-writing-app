@@ -20,9 +20,15 @@ function Footer() {
             <p className="m-0">
                 Copyright &copy; 2020{" "}
                 <a href="/" className="text-muted">
-                    ComplexApp
+                    WriteApp!
+                </a>{" "}
+                All rights reserved.
+            </p>
+            <p className="m-0">
+                Site by{" "}
+                <a href="https://craigeastwood.com" className="text-muted">
+                    <strong>Craig Eastwood</strong>
                 </a>
-                . All rights reserved.
             </p>
         </footer>
     )
