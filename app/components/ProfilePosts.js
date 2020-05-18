@@ -39,7 +39,7 @@ function ProfilePosts() {
             {Boolean(posts.length) && (
                 <div className="list-group">
                     {posts.map(post => {
-                        return <PostLine suppressAuthor={true} post={post} />
+                        return <PostLine key={post._id} suppressAuthor={true} post={post} />
                     })}
                 </div>
             )}

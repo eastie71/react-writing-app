@@ -73,7 +73,7 @@ function Search() {
     }
 
     return (
-        <div className="search-overlay">
+        <>
             <div className="search-overlay-top shadow-sm">
                 <div className="container container--narrow">
                     <label htmlFor="live-search-field" className="search-overlay-icon">
@@ -96,7 +96,7 @@ function Search() {
                                     <strong>Search Results</strong> ({state.results.length} {state.results.length == 1 ? "item" : "items"} found)
                                 </div>
                                 {state.results.map(post => {
-                                    return <PostLine post={post} onClick={() => appDispatch({ type: "closeSearch" })} />
+                                    return <PostLine key={post._id} post={post} onClick={() => appDispatch({ type: "closeSearch" })} />
                                 })}
                             </div>
                         )}
@@ -104,7 +104,7 @@ function Search() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 export default Search

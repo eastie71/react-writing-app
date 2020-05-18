@@ -4,9 +4,10 @@ import DispatchContext from "../DispatchContext"
 import { useImmer } from "use-immer"
 import { Link } from "react-router-dom"
 import io from "socket.io-client"
-const socket = io("http://localhost:8080")
 
 function Chat() {
+    // Create a consistent mutable object so that web browser can hold on to server socket connection
+    const socket = useRef(null)
     // Need to set the focus on the Chat field when Chat component is rendered
     const chatField = useRef(null)
     // Need to set the scroll to bottom of Chat window component - where the last message is
@@ -35,12 +36,18 @@ function Chat() {
         }
     }, [state.chatMessages])
 
+    // Establish socket connection with server for chat messages
     useEffect(() => {
-        socket.on("chatFromServer", message => {
+        // Open the socket connection with the server
+        socket.current = io("http://localhost:8080")
+
+        socket.current.on("chatFromServer", message => {
             setState(draft => {
                 draft.chatMessages.push(message)
             })
         })
+        // Cleanup (close) socket connection on exit
+        return () => socket.current.disconnect()
     }, [])
 
     function handleFieldChange(e) {
@@ -54,7 +61,7 @@ function Chat() {
     function handleSubmit(e) {
         e.preventDefault()
         // Send message to chat server
-        socket.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
+        socket.current.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
         setState(draft => {
             // Add message to collection of messages
             draft.chatMessages.push({ message: draft.fieldValue, username: appState.user.username, avatar: appState.user.avatar })

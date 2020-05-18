@@ -7,7 +7,7 @@ function PostLine(props) {
     const postDate = new Date(post.createdDate)
     const postDateFormatted = `${postDate.getDate()}/${postDate.getMonth() + 1}/${postDate.getFullYear()}`
     return (
-        <Link onClick={props.onClick} key={post._id} to={`/post/${post._id}`} className="list-group-item list-group-item-action">
+        <Link onClick={props.onClick} to={`/post/${post._id}`} className="list-group-item list-group-item-action">
             {authorRequired && (
                 <>
                     <img className="avatar-tiny" src={post.author.avatar} /> <strong>{post.title}</strong>{" "}

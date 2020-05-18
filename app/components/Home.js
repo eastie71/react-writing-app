@@ -47,7 +47,7 @@ function Home() {
                     <h2 className="text-center mb-4">Latest From People You Follow</h2>
                     <div className="list-group">
                         {state.feedResults.map(post => {
-                            return <PostLine post={post} />
+                            return <PostLine key={post._id} post={post} />
                         })}
                     </div>
                 </>
