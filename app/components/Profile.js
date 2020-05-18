@@ -7,6 +7,7 @@ import ProfilePosts from "./ProfilePosts"
 import { useImmer } from "use-immer"
 import ProfileFollowers from "./ProfileFollowers"
 import ProfileFollowing from "./ProfileFollowing"
+import NotFound from "./NotFound"
 
 function Profile() {
     // Just get the "username from useParams"
@@ -118,8 +119,12 @@ function Profile() {
         })
     }
 
+    if (!state.profileData) {
+        return <NotFound />
+    }
+
     return (
-        <Page title="Profile Screen - Fix Later">
+        <Page title={`${username}'s Profile`}>
             <h2>
                 <img className="avatar-small" src={state.profileData.profileAvatar} /> {state.profileData.profileUsername}
                 {appState.loggedIn && !state.profileData.isFollowing && appState.user.username != state.profileData.profileUsername && state.profileData.profileUsername != "..." && (
