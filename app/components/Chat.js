@@ -39,7 +39,7 @@ function Chat() {
     // Establish socket connection with server for chat messages
     useEffect(() => {
         // Open the socket connection with the server
-        socket.current = io("http://localhost:8080")
+        socket.current = io(process.env.BACKENDURL || "https://writing-app-backend.herokuapp.com")
 
         socket.current.on("chatFromServer", message => {
             setState(draft => {
