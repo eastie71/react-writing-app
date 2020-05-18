@@ -171,10 +171,7 @@ function HomeGuest() {
             const registerRequest = Axios.CancelToken.source()
             async function registerSubmitRequest() {
                 try {
-                    console.log("Register submit")
                     const response = await Axios.post("/register", { username: state.username.value, email: state.email.value, password: state.password.value }, { cancelToken: registerRequest.token })
-                    console.log("After register submit")
-                    console.log(response.data)
                     appDispatch({ type: "login", userdata: response.data })
                     appDispatch({ type: "addFlashMessage", value: "Congratulations, You have successfully registered." })
                 } catch (error) {
@@ -196,6 +193,7 @@ function HomeGuest() {
         dispatch({ type: "passwordCheckAfterDelay", value: state.password.value })
         dispatch({ type: "submitForm" })
     }
+
     return (
         <Page title="Welcome">
             <div className="row align-items-center">
