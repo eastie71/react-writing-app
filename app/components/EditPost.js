@@ -97,7 +97,7 @@ function EditPost(props) {
                     dispatch({ type: "loadCompleted", value: response.data })
                     // Only the author of the post can edit the post
                     if (appState.user.username != response.data.author.username) {
-                        appDispatch({ type: "addFlashMessage", value: "You do not have permission to edit that post" })
+                        appDispatch({ type: "addFlashMessage", value: "You do not have permission to edit that post", messageType: "error" })
                         // Redirect user back to homepage (needed to include "withRouter" to perform this action)
                         props.history.push("/")
                     }

@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, Suspense } from "react"
+import React, { useEffect, Suspense } from "react"
 import ReactDOM from "react-dom"
 import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
@@ -53,7 +53,7 @@ function Main() {
                 return
             case "addFlashMessage":
                 // For "addFlashMessage" the action.value is set to the message being added to flash messages
-                draft.flashMessages.push(action.value)
+                draft.flashMessages.push({ value: action.value, type: action.messageType })
                 return
             case "openSearch":
                 draft.searchOpen = true

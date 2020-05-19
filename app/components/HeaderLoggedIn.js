@@ -11,7 +11,7 @@ function HeaderLoggedIn() {
     function handleLogout() {
         // Remove localStorage via useEffect (see Main.js)
         appDispatch({ type: "logout" })
-        appDispatch({ type: "addFlashMessage", value: "You have now logged out." })
+        appDispatch({ type: "addFlashMessage", value: "You have now logged out.", messageType: "info" })
     }
 
     function handleSearchIcon(e) {

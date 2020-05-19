@@ -60,10 +60,10 @@ function HeaderLoggedOut() {
                 if (response.data) {
                     // Saved to localStorage with useEffect (see Main.js)
                     appDispatch({ type: "login", userdata: response.data })
-                    appDispatch({ type: "addFlashMessage", value: "You have successfully logged in." })
+                    appDispatch({ type: "addFlashMessage", value: "You have successfully logged in.", messageType: "info" })
                 } else {
                     console.log("Wrong username / password")
-                    appDispatch({ type: "addFlashMessage", value: "Invalid username / password" })
+                    appDispatch({ type: "addFlashMessage", value: "Invalid username / password", messageType: "error" })
                 }
             } catch (error) {
                 console.log("An error occurred on User Login or User cancelled")
@@ -73,7 +73,7 @@ function HeaderLoggedOut() {
             }
         } else {
             dispatch({ type: "setErrors" })
-            appDispatch({ type: "addFlashMessage", value: "Please enter a valid username and password to login." })
+            appDispatch({ type: "addFlashMessage", value: "Please enter a valid username and password to login.", messageType: "warn" })
         }
     }
 

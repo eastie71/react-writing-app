@@ -69,10 +69,10 @@ function ViewSinglePost(props) {
                 // and still ok to re-direct to profile page anyway
                 const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } })
                 if (response.data == "Success") {
-                    appDispatch({ type: "addFlashMessage", value: "Post successfully deleted." })
+                    appDispatch({ type: "addFlashMessage", value: "Post successfully deleted.", messageType: "info" })
                     props.history.push(`/profile/${appState.user.username}`)
                 } else {
-                    appDispatch({ type: "addFlashMessage", value: "An error occurred trying to delete the post" })
+                    appDispatch({ type: "addFlashMessage", value: "An error occurred trying to delete the post", messageType: "error" })
                 }
             } catch (error) {
                 console.log("There was a problem trying to delete the post.")
