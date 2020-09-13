@@ -150,7 +150,7 @@ function Main() {
                     </Suspense>
                     <CSSTransition timeout={330} in={state.searchOpen} classNames="search-overlay" unmountOnExit>
                         {/* CSSTransition adds classes to its nearest child element - so need to have the "div" wrapper here 
-                            and THEN the "Suspense" (for lazy loading) - ie. dont want CCSTransition added classes to the
+                            and THEN the "Suspense" (for lazy loading) - ie. dont want CSSTransition added classes to the
                             "Suspense" element.
                             No need to have a "Loading..." here so set the fallback to an empty string */}
                         <div className="search-overlay">
