@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
 import ReactTooltip from "react-tooltip"
@@ -7,11 +7,14 @@ import ReactTooltip from "react-tooltip"
 function HeaderLoggedIn() {
     const appDispatch = useContext(DispatchContext)
     const appState = useContext(StateContext)
+    const history = useHistory();
 
     function handleLogout() {
         // Remove localStorage via useEffect (see Main.js)
         appDispatch({ type: "logout" })
         appDispatch({ type: "addFlashMessage", value: "You have now logged out.", messageType: "info" })
+        // Redirect to Home route on Logout
+        history.push("/")
     }
 
     function handleSearchIcon(e) {
